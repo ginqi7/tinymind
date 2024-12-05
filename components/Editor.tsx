@@ -335,16 +335,6 @@ export default function Editor({
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem
-                value="blog"
-                id="blog"
-                className={type === "blog" ? "text-white bg-black" : ""}
-              />
-              <Label htmlFor="blog" className="text-sm">
-                {t("blog")}
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem
                 value="thought"
                 id="thought"
                 className={type === "thought" ? "text-white bg-black" : ""}

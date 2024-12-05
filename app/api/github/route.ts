@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { deleteThought, createBlogPost, createThought, getBlogPosts, getThoughts, updateThought, deleteBlogPost, updateBlogPost, getBlogPost } from '@/lib/githubApi';
+import { deleteThought, createThought, getThoughts, updateThought} from '@/lib/githubApi';
 
 export const dynamic = 'force-dynamic'; // Disable caching for this route
 export const revalidate = 60; // Revalidate every 60 seconds
@@ -27,15 +27,7 @@ export async function POST(request: NextRequest) {
     console.log('Data:', JSON.stringify(data, null, 2));
 
     switch (action) {
-      case 'createBlogPost':
-        await createBlogPost(data.title, data.content, session.accessToken);
-        return NextResponse.json({ message: 'Blog post created successfully' }, { headers });
-      case 'updateBlogPost':
-        await updateBlogPost(data.id, data.title, data.content, session.accessToken);
-        return NextResponse.json({ message: 'Blog post updated successfully' }, { headers });
-      case 'deleteBlogPost':
-        await deleteBlogPost(data.id, session.accessToken);
-        return NextResponse.json({ message: 'Blog post deleted successfully' }, { headers });
+
       case 'createThought':
         await createThought(data.content, data.image, session.accessToken);
         return NextResponse.json({ message: 'Thought created successfully' }, { headers });
@@ -69,18 +61,9 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
-    const id = searchParams.get('id');
+    // const id = searchParams.get('id');
 
     switch (action) {
-      case 'getBlogPosts':
-        const posts = await getBlogPosts(session.accessToken);
-        return NextResponse.json(posts, { headers });
-      case 'getBlogPost':
-        if (!id) {
-          return NextResponse.json({ error: 'Missing id parameter' }, { status: 400, headers });
-        }
-        const post = await getBlogPost(id, session.accessToken);
-        return NextResponse.json(post, { headers });
       case 'getThoughts':
         const thoughts = await getThoughts(session.accessToken);
         return NextResponse.json(thoughts, { headers });

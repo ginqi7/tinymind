@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Octokit } from '@octokit/rest';
-import { getBlogPostsPublic, getThoughtsPublic } from '@/lib/githubApi';
+import { getThoughtsPublic } from '@/lib/githubApi';
 
 export const dynamic = 'force-dynamic'; // Disable caching for this route
 export const revalidate = 60; // Revalidate every 60 seconds
@@ -19,11 +19,10 @@ export async function GET(
   const octokit = new Octokit(); // No authentication needed for public repos
 
   try {
-    const blogPosts = await getBlogPostsPublic(octokit, username, 'tinymind-blog');
     const thoughts = await getThoughtsPublic(octokit, username, 'tinymind-blog');
 
     return NextResponse.json(
-      { blogPosts, thoughts },
+      { thoughts },
       { 
         headers,
         status: 200 

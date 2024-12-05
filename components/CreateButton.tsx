@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 import { AbstractIntlMessages } from "next-intl";
@@ -10,11 +9,8 @@ export default function CreateButton({
 }: {
   messages: AbstractIntlMessages;
 }) {
-  const pathname = usePathname();
 
-  const isThoughtsPage = pathname === "/" || pathname === "/thoughts";
-  const isBlogPage = pathname === "/blog";
-  const createLink = isBlogPage ? "/editor?type=blog" : "/editor?type=thought";
+  const createLink = "/editor?type=thought";
 
   return (
     <Link
@@ -23,9 +19,7 @@ export default function CreateButton({
     >
       <FiPlus className="w-6 h-6" />
       <span className="sr-only">
-        {isThoughtsPage
-          ? (messages.createNewThought as string)
-          : (messages.createNewBlogPost as string)}
+        {(messages.createNewThought as string)}
       </span>
     </Link>
   );
